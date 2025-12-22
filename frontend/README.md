@@ -1,6 +1,6 @@
 # Frontend - Weather Dashboard
 
-React application built with Tremor UI components for visualizing weather data from Supabase.
+React application built with Vite and Tremor UI components for visualizing weather data from Supabase.
 
 ## Setup
 
@@ -16,15 +16,15 @@ cp .env.example .env
 
 3. Add your Supabase credentials to `.env`:
 ```
-REACT_APP_SUPABASE_URL=https://your-project.supabase.co
-REACT_APP_SUPABASE_ANON_KEY=your-anon-key
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 ## Running the Application
 
 Start the development server:
 ```bash
-npm start
+npm run dev
 ```
 
 The app will open at [http://localhost:3000](http://localhost:3000)
@@ -35,10 +35,16 @@ The app will open at [http://localhost:3000](http://localhost:3000)
 npm run build
 ```
 
+Preview the production build:
+```bash
+npm run preview
+```
+
 ## Features
 
 - Real-time weather data visualization
 - Interactive charts using Tremor components
 - Responsive design
 - Data refresh functionality
+- Fast development with Vite
 

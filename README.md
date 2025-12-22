@@ -7,7 +7,7 @@ A full-stack data engineering project that fetches weather data from a public AP
 - **Data Pipeline**: Python script that fetches weather data from Open-Meteo API
 - **Data Processing**: Uses pandas for data transformation and cleaning
 - **Database**: Stores processed data in Supabase (PostgreSQL)
-- **Frontend**: React application with Tremor UI components for data visualization
+- **Frontend**: React application with Vite and Tremor UI components for data visualization
 - **CI/CD**: GitHub Actions workflows for automated data pipeline execution
 - **Dockerized**: Full Docker support with docker-compose for easy deployment
 
@@ -126,7 +126,7 @@ python pipeline.py
 ```bash
 cd frontend
 npm install
-npm start
+npm run dev
 ```
 
 ### Docker Commands

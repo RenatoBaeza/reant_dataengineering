@@ -23,7 +23,7 @@ This guide explains how to use Docker with this project.
 
 ### Production (`docker-compose.yml`)
 - Optimized production builds
-- Frontend served via Nginx
+- Frontend served via Vite preview server
 - Backend runs pipeline once and exits
 
 ### Development (`docker-compose.dev.yml`)
@@ -44,8 +44,10 @@ docker run --env-file .env weather-pipeline
 ```bash
 cd frontend
 docker build -t weather-dashboard .
-docker run -p 3000:80 --env-file .env weather-dashboard
+docker run -p 3000:3000 --env-file .env weather-dashboard
 ```
+
+Note: The frontend uses Vite's preview server in production mode.
 
 ## Development Workflow
 
@@ -77,8 +79,8 @@ SUPABASE_KEY=your-anon-key
 
 **Frontend (.env):**
 ```
-REACT_APP_SUPABASE_URL=https://your-project.supabase.co
-REACT_APP_SUPABASE_ANON_KEY=your-anon-key
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 ## Troubleshooting
@@ -102,7 +104,7 @@ REACT_APP_SUPABASE_ANON_KEY=your-anon-key
 - Change port mapping in `docker-compose.yml`:
   ```yaml
   ports:
-    - "8080:80"  # Use port 8080 instead
+    - "8080:3000"  # Use port 8080 instead
   ```
 
 ## Production Deployment
@@ -118,20 +120,19 @@ For production deployment:
 
 3. **Consider using Docker secrets** for sensitive data
 
-4. **Set up a reverse proxy** (nginx, traefik) in front of the frontend container
+4. **Set up a reverse proxy** (nginx, traefik, caddy) in front of the frontend container (optional)
 
 5. **Schedule backend runs** using cron or your orchestration platform's scheduler
 
 ## Image Sizes
 
 - Backend: ~150MB (Python slim base)
-- Frontend: ~25MB (Nginx alpine + built React app)
+- Frontend: ~150MB (Node.js alpine with Vite preview server)
 
-## Multi-stage Builds
+## Build Process
 
-The frontend uses a multi-stage build:
-1. **Build stage**: Node.js image to compile React app
-2. **Production stage**: Nginx alpine to serve static files
-
-This results in a much smaller final image (~25MB vs ~500MB).
+The frontend uses Vite for:
+- Fast development server with HMR (Hot Module Replacement)
+- Optimized production builds
+- Built-in preview server for production testing
 

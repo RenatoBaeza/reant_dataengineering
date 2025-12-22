@@ -74,8 +74,8 @@ cp .env.example .env
 
 4. Edit `.env` and add your Supabase credentials:
 ```
-REACT_APP_SUPABASE_URL=https://your-project-id.supabase.co
-REACT_APP_SUPABASE_ANON_KEY=your-anon-key-here
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
 5. Start the development server:
@@ -120,8 +120,9 @@ npm start
 
 ### Frontend Issues
 - Ensure your `.env` file is in the `frontend` directory
-- Make sure environment variables start with `REACT_APP_`
+- Make sure environment variables start with `VITE_`
 - Clear browser cache if data doesn't appear
+- Restart the dev server after changing `.env` variables
 
 ### GitHub Actions Issues
 - Verify secrets are set correctly in GitHub

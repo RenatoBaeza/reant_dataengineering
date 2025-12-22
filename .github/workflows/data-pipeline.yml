@@ -1,6 +1,8 @@
 name: Data Pipeline
 
 on:
+  push:
+    branches: [ master ]
   schedule:
     # Run daily at 6 AM UTC
     - cron: '0 6 * * *'

@@ -78,12 +78,13 @@ VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
-5. Start the development server:
+5. Build and preview the application:
 ```bash
-npm start
+npm run build
+npm run preview
 ```
 
-The app will open at http://localhost:3000
+The app will be available at http://localhost:3000
 
 ## 4. GitHub Actions Setup
 
@@ -105,10 +106,11 @@ python pipeline.py
 
 2. Check your Supabase dashboard to see the data in the `weather_data` table
 
-3. Start the frontend and verify the dashboard displays the data:
+3. Build and preview the frontend to verify the dashboard displays the data:
 ```bash
 cd frontend
-npm start
+npm run build
+npm run preview
 ```
 
 ## Troubleshooting
@@ -122,7 +124,7 @@ npm start
 - Ensure your `.env` file is in the `frontend` directory
 - Make sure environment variables start with `VITE_`
 - Clear browser cache if data doesn't appear
-- Restart the dev server after changing `.env` variables
+- Rebuild the application after changing `.env` variables
 
 ### GitHub Actions Issues
 - Verify secrets are set correctly in GitHub

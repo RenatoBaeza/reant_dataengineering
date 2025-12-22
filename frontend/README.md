@@ -20,15 +20,6 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-## Running the Application
-
-Start the development server:
-```bash
-npm run dev
-```
-
-The app will open at [http://localhost:3000](http://localhost:3000)
-
 ## Building for Production
 
 ```bash
@@ -40,11 +31,13 @@ Preview the production build:
 npm run preview
 ```
 
+The app will be available at [http://localhost:3000](http://localhost:3000)
+
 ## Features
 
 - Real-time weather data visualization
 - Interactive charts using Tremor components
 - Responsive design
 - Data refresh functionality
-- Fast development with Vite
+- Optimized production builds with Vite
 

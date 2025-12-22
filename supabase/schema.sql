@@ -24,8 +24,8 @@ CREATE POLICY "Allow public read access" ON weather_data
   FOR SELECT USING (true);
 
 -- Create a policy that allows insert (for your backend pipeline)
--- Note: In production, you should use a service role key for inserts
--- This policy allows inserts with the anon key for development
+-- Note: In production, consider using a service role key for inserts
+-- This policy allows inserts with the anon key
 CREATE POLICY "Allow public insert access" ON weather_data
   FOR INSERT WITH CHECK (true);
 

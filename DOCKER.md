@@ -19,17 +19,12 @@ This guide explains how to use Docker with this project.
 3. **Access the application:**
    - Frontend: http://localhost:3000
 
-## Docker Compose Files
+## Docker Compose
 
-### Production (`docker-compose.yml`)
+The `docker-compose.yml` file provides:
 - Optimized production builds
 - Frontend served via Vite preview server
 - Backend runs pipeline once and exits
-
-### Development (`docker-compose.dev.yml`)
-- Hot reload for both frontend and backend
-- Volume mounts for live code changes
-- Frontend runs on port 3000 with React dev server
 
 ## Building Individual Services
 
@@ -47,25 +42,7 @@ docker build -t weather-dashboard .
 docker run -p 3000:3000 --env-file .env weather-dashboard
 ```
 
-Note: The frontend uses Vite's preview server in production mode.
-
-## Development Workflow
-
-### Using Development Compose
-```bash
-# Start services with hot reload
-docker-compose -f docker-compose.dev.yml up
-
-# Run backend pipeline manually in dev container
-docker-compose -f docker-compose.dev.yml exec backend python pipeline.py
-
-# View logs
-docker-compose -f docker-compose.dev.yml logs -f frontend
-```
-
-### Making Changes
-- Frontend: Edit files in `frontend/src/` - changes reflect immediately
-- Backend: Edit files in `backend/` - restart container or run manually
+Note: The frontend uses Vite's preview server for production serving.
 
 ## Environment Variables
 
@@ -132,7 +109,6 @@ For production deployment:
 ## Build Process
 
 The frontend uses Vite for:
-- Fast development server with HMR (Hot Module Replacement)
 - Optimized production builds
-- Built-in preview server for production testing
+- Built-in preview server for production serving
 

@@ -100,34 +100,12 @@ cp frontend/.env.example frontend/.env
 
 2. Build and run with Docker Compose:
 ```bash
-# Production build
 docker-compose up --build
-
-# Development mode with hot reload
-docker-compose -f docker-compose.dev.yml up --build
 ```
 
 3. Access the application:
 - Frontend: http://localhost:3000
 - Backend pipeline runs automatically
-
-### Local Development
-
-#### Run Data Pipeline Locally
-
-```bash
-cd backend
-pip install -r requirements.txt
-python pipeline.py
-```
-
-#### Run Frontend Locally
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
 
 ### Docker Commands
 
@@ -146,17 +124,30 @@ docker-compose down
 
 # Run backend pipeline manually
 docker-compose run backend python pipeline.py
-
-# Development mode
-docker-compose -f docker-compose.dev.yml up
 ```
 
 ## GitHub Actions
 
 The project includes GitHub Actions workflows that:
-- Run the data pipeline on a schedule (daily)
-- Run tests
-- Deploy the frontend (optional)
+- Run the data pipeline on a schedule (daily at 6 AM UTC)
+- Can be triggered manually from the Actions tab
+
+## Free Deployment
+
+This project can be deployed completely free! 🚀
+
+### Quick Deploy (Recommended)
+1. **Frontend**: Deploy to [Vercel](https://vercel.com) in 2 minutes - see [QUICK_DEPLOY.md](QUICK_DEPLOY.md)
+2. **Backend**: Already configured with GitHub Actions (just add secrets)
+3. **Database**: Supabase free tier
+
+### Deployment Options
+- **Frontend**: [Vercel](https://vercel.com), [Netlify](https://netlify.com), or [Cloudflare Pages](https://pages.cloudflare.com)
+- **Backend Pipeline**: GitHub Actions (already configured)
+- **Full Stack**: [Railway](https://railway.app) or [Render](https://render.com)
+
+📖 **See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions**  
+⚡ **See [QUICK_DEPLOY.md](QUICK_DEPLOY.md) for 5-minute setup**
 
 ## License
 

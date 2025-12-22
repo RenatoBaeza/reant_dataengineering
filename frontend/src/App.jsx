@@ -28,10 +28,61 @@ function App() {
   const [weatherData, setWeatherData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [analytics, setAnalytics] = useState({ visits: 0, refreshes: 0, recentEvents: [] });
 
   useEffect(() => {
     fetchWeatherData();
+    trackAnalytics('visit');
+    fetchAnalytics();
   }, []);
+
+  const trackAnalytics = async (eventType) => {
+    if (!supabase) return;
+
+    try {
+      await supabase
+        .from('analytics')
+        .insert({
+          event_type: eventType,
+          user_agent: navigator.userAgent,
+          referrer: document.referrer || null,
+        });
+    } catch (err) {
+      console.error('Error tracking analytics:', err);
+    }
+  };
+
+  const fetchAnalytics = async () => {
+    if (!supabase) return;
+
+    try {
+      // Get total visits and refreshes
+      const { data: visitData } = await supabase
+        .from('analytics')
+        .select('*')
+        .eq('event_type', 'visit');
+
+      const { data: refreshData } = await supabase
+        .from('analytics')
+        .select('*')
+        .eq('event_type', 'refresh');
+
+      // Get recent events
+      const { data: recentEvents } = await supabase
+        .from('analytics')
+        .select('*')
+        .order('timestamp', { ascending: false })
+        .limit(10);
+
+      setAnalytics({
+        visits: visitData?.length || 0,
+        refreshes: refreshData?.length || 0,
+        recentEvents: recentEvents || [],
+      });
+    } catch (err) {
+      console.error('Error fetching analytics:', err);
+    }
+  };
 
   const fetchWeatherData = async () => {
     if (!supabase) {
@@ -58,6 +109,12 @@ function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRefresh = async () => {
+    await trackAnalytics('refresh');
+    await fetchWeatherData();
+    await fetchAnalytics();
   };
 
   // Calculate statistics
@@ -210,10 +267,62 @@ function App() {
               </tbody>
             </table>
           </div>
+        </Card>        {/* Analytics Section */}
+        <Card className="mt-6">
+          <Title>Analytics Dashboard</Title>
+          <Grid numItems={1} numItemsSm={2} numItemsLg={2} className="gap-6 mt-4">
+            <Card>
+              <Text>Total Visits</Text>
+              <Metric>{analytics.visits}</Metric>
+            </Card>
+            <Card>
+              <Text>Total Refreshes</Text>
+              <Metric>{analytics.refreshes}</Metric>
+            </Card>
+          </Grid>
+          <div className="mt-4">
+            <Text className="mb-2">Recent Activity</Text>
+            <div className="table-container">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Event Type</th>
+                    <th>Timestamp</th>
+                    <th>User Agent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {analytics.recentEvents.length > 0 ? (
+                    analytics.recentEvents.map((event) => (
+                      <tr key={event.id}>
+                        <td>
+                          <span className={`event-badge ${event.event_type}`}>
+                            {event.event_type}
+                          </span>
+                        </td>
+                        <td>{new Date(event.timestamp).toLocaleString()}</td>
+                        <td className="user-agent-cell">
+                          {event.user_agent ? event.user_agent.substring(0, 50) + '...' : 'N/A'}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" style={{ textAlign: 'center', padding: '1rem' }}>
+                        No analytics data yet
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </Card>
 
+
+
         <Flex justifyContent="center" className="mt-6">
-          <button onClick={fetchWeatherData} className="refresh-button">
+          <button onClick={handleRefresh} className="refresh-button">
             Refresh Data
           </button>
         </Flex>

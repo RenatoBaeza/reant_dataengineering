@@ -30,5 +30,14 @@ jobs:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
           cd backend
+          # Verify environment variables are set (without exposing values)
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "Error: SUPABASE_URL secret is not set in GitHub repository settings"
+            exit 1
+          fi
+          if [ -z "$SUPABASE_KEY" ]; then
+            echo "Error: SUPABASE_KEY secret is not set in GitHub repository settings"
+            exit 1
+          fi
+          echo "Environment variables are set (lengths: URL=${#SUPABASE_URL}, KEY=${#SUPABASE_KEY})"
           python pipeline.py
-

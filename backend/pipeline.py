@@ -129,12 +129,17 @@ def main():
     """
     print("Starting data pipeline...")
     
-    # Validate Supabase configuration
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set in environment variables")
-    
+    # Configuration is validated in config.py on import
     # Initialize Supabase client
-    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    try:
+        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    except Exception as e:
+        print(f"Failed to create Supabase client: {str(e)}")
+        print(f"SUPABASE_URL is set: {bool(SUPABASE_URL)}")
+        print(f"SUPABASE_URL length: {len(SUPABASE_URL) if SUPABASE_URL else 0}")
+        print(f"SUPABASE_KEY is set: {bool(SUPABASE_KEY)}")
+        print(f"SUPABASE_KEY length: {len(SUPABASE_KEY) if SUPABASE_KEY else 0}")
+        raise
     
     # Fetch weather data for all locations
     print("Fetching weather data...")

@@ -39,5 +39,11 @@ jobs:
             echo "Error: SUPABASE_KEY secret is not set in GitHub repository settings"
             exit 1
           fi
-          echo "Environment variables are set (lengths: URL=${#SUPABASE_URL}, KEY=${#SUPABASE_KEY})"
+          echo "Environment variables are set:"
+          echo "  - SUPABASE_URL length: ${#SUPABASE_URL}"
+          echo "  - SUPABASE_KEY length: ${#SUPABASE_KEY}"
+          echo "  - SUPABASE_URL starts with: $(echo "$SUPABASE_URL" | cut -c1-20)..."
+          echo "  - SUPABASE_KEY starts with: $(echo "$SUPABASE_KEY" | cut -c1-20)..."
+          echo "  - SUPABASE_KEY format check: $(echo "$SUPABASE_KEY" | grep -q '^eyJ' && echo 'PASS (starts with eyJ)' || echo 'FAIL (should start with eyJ)')"
+          echo "  - SUPABASE_KEY parts: $(echo "$SUPABASE_KEY" | tr -cd '.' | wc -c | tr -d ' ') dots (should be 2 for 3 parts)"
           python pipeline.py

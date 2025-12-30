@@ -26,6 +26,26 @@ if not SUPABASE_URL.startswith("https://"):
         f"SUPABASE_URL must start with 'https://'. Got: {SUPABASE_URL[:20]}..."
     )
 
+# Validate API key format (JWT tokens start with 'eyJ' and have 3 parts separated by dots)
+if not SUPABASE_KEY.startswith("eyJ"):
+    raise ValueError(
+        f"SUPABASE_KEY appears to be invalid. JWT tokens should start with 'eyJ'. "
+        f"Got key starting with: {SUPABASE_KEY[:10] if len(SUPABASE_KEY) >= 10 else SUPABASE_KEY} "
+        f"(length: {len(SUPABASE_KEY)})"
+    )
+
+# Check JWT format (should have 3 parts: header.payload.signature)
+key_parts = SUPABASE_KEY.split(".")
+if len(key_parts) != 3:
+    raise ValueError(
+        f"SUPABASE_KEY appears to be malformed. JWT tokens should have 3 parts separated by dots. "
+        f"Found {len(key_parts)} parts. Key length: {len(SUPABASE_KEY)}"
+    )
+
+# Debug output (safe - only shows lengths and first/last few chars)
+print(f"✓ SUPABASE_URL configured (length: {len(SUPABASE_URL)})")
+print(f"✓ SUPABASE_KEY configured (length: {len(SUPABASE_KEY)}, starts with: {SUPABASE_KEY[:10]}...)")
+
 # API configuration
 WEATHER_API_BASE_URL = "https://api.open-meteo.com/v1/forecast"
 

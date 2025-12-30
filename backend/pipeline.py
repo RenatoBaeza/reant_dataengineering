@@ -131,14 +131,28 @@ def main():
     
     # Configuration is validated in config.py on import
     # Initialize Supabase client
+    print("Initializing Supabase client...")
+    print(f"URL: {SUPABASE_URL}")
+    print(f"Key format check: starts with 'eyJ'={SUPABASE_KEY.startswith('eyJ')}, has 3 parts={len(SUPABASE_KEY.split('.')) == 3}")
+    
     try:
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+        print("✓ Supabase client created successfully")
     except Exception as e:
-        print(f"Failed to create Supabase client: {str(e)}")
-        print(f"SUPABASE_URL is set: {bool(SUPABASE_URL)}")
-        print(f"SUPABASE_URL length: {len(SUPABASE_URL) if SUPABASE_URL else 0}")
-        print(f"SUPABASE_KEY is set: {bool(SUPABASE_KEY)}")
-        print(f"SUPABASE_KEY length: {len(SUPABASE_KEY) if SUPABASE_KEY else 0}")
+        print(f"✗ Failed to create Supabase client: {str(e)}")
+        print(f"Debug info:")
+        print(f"  - SUPABASE_URL length: {len(SUPABASE_URL)}")
+        print(f"  - SUPABASE_URL starts with: {SUPABASE_URL[:20]}...")
+        print(f"  - SUPABASE_KEY length: {len(SUPABASE_KEY)}")
+        print(f"  - SUPABASE_KEY starts with: {SUPABASE_KEY[:20]}...")
+        print(f"  - SUPABASE_KEY ends with: ...{SUPABASE_KEY[-10:]}")
+        print(f"  - Key has newlines: {chr(10) in SUPABASE_KEY or chr(13) in SUPABASE_KEY}")
+        print(f"  - Key has spaces: {' ' in SUPABASE_KEY}")
+        print("\nTroubleshooting tips:")
+        print("  1. Verify you copied the ENTIRE Secret key from Supabase")
+        print("  2. Make sure there are no extra spaces or line breaks")
+        print("  3. The key should be a long JWT token starting with 'eyJ'")
+        print("  4. Verify the key matches your Supabase project")
         raise
     
     # Fetch weather data for all locations
